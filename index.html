@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أداة إخفاء واستخراج الرسائل من الصور</title>
+    <!-- استدعاء مكتبة الـ QR كود في الهيد -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #10b981; 
+            --secondary-color: #3b82f6; 
+            --bg-color: #f3f4f6;
+            --card-bg: #ffffff;
+            --border-color: #d1d5db;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 650px;
+            box-sizing: border-box;
+        }
+        h1 {
+            text-align: center;
+            color: #1f2937;
+            margin-bottom: 25px;
+            font-size: 22px;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background-color: #e5e7eb;
+            color: #374151;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab-btn.active-encode {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .tab-btn.active-decode {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        .section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 15px;
+            box-sizing: border-box;
+            background-color: #fff;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #6b7280;
+        }
+        .panel {
+            display: none;
+        }
+        .panel.active {
+            display: block;
+        }
+        button.action-btn {
+            width: 100%;
+            padding: 14px;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        button.action-btn:hover {
+            opacity: 0.9;
+        }
+        .btn-encode { background-color: var(--primary-color); }
+        .btn-decode { background-color: var(--secondary-color); }
+        
+        .output-box {
+            margin-top: 25px;
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            min-height: 50px;
+            word-break: break-all;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .output-title {
+            font-weight: bold;
+            color: #4b5563;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+        .preview-img {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 10px;
+            border-radius: 6px;
+            display: none;
+            border: 1px dashed #ccc;
+        }
+        .download-link {
+            display: inline-block;
+            margin-top: 15px;
+            background-color: #047857;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .download-link:hover { background-color: #065f46; }
+
+        .qr-section {
+            margin-top: 30px;
+            border-top: 2px dashed #e5e7eb;
+            padding-top: 20px;
+            text-align: center;
+        }
+        .qr-title {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 12px;
+            font-weight: bold;
+        }
+        #qrcode {
+            display: inline-block;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>أداة إخفاء واستخراج البيانات من الصور 🔐</h1>
+
+    <div class="tabs">
+        <button id="encodeTab" class="tab-btn active-encode" onclick="switchMode('encode')">إخفاء رسالة (Encode)</button>
+        <button id="decodeTab" class="tab-btn" onclick="switchMode('decode')">استخراج رسالة (Decode)</button>
+    </div>
+
+    <!-- لوحة الإخفاء (Encode) -->
+    <div id="encodePanel" class="panel active">
+        <div class="section">
+            <label>1. اختر الصورة الأصلية (يفضل بصيغة PNG):</label>
+            <input type="file" id="encodeFile" accept="image/*" onchange="handleImage(event, 'encode')">
+            <center><img id="encodePreview" class="preview-img" alt="معاينة"></center>
+        </div>
+        <div class="section">
+            <label for="secretMessage">2. اكتب الرسالة السرية (يدعم اللغة العربية كاملة):</label>
+            <textarea id="secretMessage" rows="4" placeholder="اكتب رسالتك باللغة العربية أو أي لغة أخرى هنا..."></textarea>
+        </div>
+        <button class="action-btn btn-encode" onclick="processEncode()">توليد وحقن الرسالة في الصورة ✨</button>
+    </div>
+
+    <!-- لوحة الاستخراج (Decode) -->
+    <div id="decodePanel" class="panel">
+        <div class="section">
+            <label>اختر الصورة التي تحتوي على الرسالة المخفية لاستخراجها:</label>
+            <input type="file" id="decodeFile" accept="image/*" onchange="handleImage(event, 'decode')">
+            <center><img id="decodePreview" class="preview-img" alt="معاينة"></center>
+        </div>
+        <button class="action-btn btn-decode" onclick="processDecode()">استخراج الرسالة السرية الآن 🔍</button>
+    </div>
+
+    <!-- مكان عرض النتائج -->
+    <div style="margin-top: 25px;">
+        <div class="output-title">الحالة والنتيجة:</div>
+        <div id="statusOutput" class="output-box">في انتظار رفع الصورة وتحديد العملية...</div>
+        <center><div id="downloadArea"></div></center>
+    </div>
+
+    <!-- قسم الـ QR كود التلقائي للموقع -->
+    <div class="qr-section">
+        <div class="qr-title">📱 امسح الـ QR لمشاركة أو فتح هذا الموقع على جوالك:</div>
+        <div id="qrcode"></div>
+    </div>
+</div>
+
+<canvas id="canvas" style="display:none;"></canvas>
+
+<script>
+    let globalCanvas = document.getElementById('canvas');
+    let ctx = globalCanvas.getContext('2d');
+    let isImageLoaded = false;
+
+    // توليد الـ QR كود بشكل آمن بعد تحميل كافة عناصر الصفحة تماماً
+    window.onload = function() {
+        let currentUrl = window.location.href;
+        
+        // التحقق من أن المكتبة تم تحميلها بنجاح قبل التشغيل
+        if (typeof QRCode !== 'undefined') {
+            new QRCode(document.getElementById("qrcode"), {
+                text: currentUrl,
+                width: 128,
+                height: 128,
+                colorDark : "#1f2937",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        } else {
+            document.getElementById("qrcode").innerText = "فشل تحميل مكتبة الـ QR، تأكد من اتصالك بالإنترنت.";
+        }
+    };
+
+    function switchMode(mode) {
+        document.getElementById('encodePanel').classList.remove('active');
+        document.getElementById('decodePanel').classList.remove('active');
+        document.getElementById('encodeTab').classList.remove('active-encode');
+        document.getElementById('decodeTab').classList.remove('active-decode');
+        document.getElementById('downloadArea').innerHTML = "";
+        document.getElementById('statusOutput').innerText = "في انتظار العمليات...";
+        isImageLoaded = false;
+
+        if (mode === 'encode') {
+            document.getElementById('encodePanel').classList.add('active');
+            document.getElementById('encodeTab').classList.add('active-encode'); // تم إصلاح هذا السطر
+        } else {
+            document.getElementById('decodePanel').classList.add('active');
+            document.getElementById('decodeTab').classList.add('active-decode');
+        }
+    }
+
+    function handleImage(e, mode) {
+        let file = e.target.files[0];
+        if (!file) return;
+
+        let reader = new FileReader();
+        reader.onload = function(event) {
+            let img = new Image();
+            img.onload = function() {
+                globalCanvas.width = img.width;
+                globalCanvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+                isImageLoaded = true;
+                
+                let previewID = mode === 'encode' ? 'encodePreview' : 'decodePreview';
+                let previewImg = document.getElementById(previewID);
+                previewImg.src = event.target.result;
+                previewImg.style.display = 'block';
+                document.getElementById('statusOutput').innerText = "تم تحميل الصورة بنجاح وجاهزة للمعالجة.";
+            }
+            img.src = event.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+
+    // --- Encode (UTF-8) ---
+    function processEncode() {
+        let msg = document.getElementById('secretMessage').value;
+        let statusBox = document.getElementById('statusOutput');
+        let downloadArea = document.getElementById('downloadArea');
+        downloadArea.innerHTML = "";
+
+        if (!isImageLoaded) { statusBox.innerText = "خطأ: يرجى اختيار صورة أولاً."; return; }
+        if (!msg.trim()) { statusBox.innerText = "خطأ: يرجى كتابة رسالة لإخفائها."; return; }
+
+        let encoder = new TextEncoder();
+        let msgBytes = encoder.encode(msg);
+        
+        let fullBytes = new Uint8Array(msgBytes.length + 1);
+        fullBytes.set(msgBytes);
+        fullBytes[msgBytes.length] = 0; 
+
+        let imgData = ctx.getImageData(0, 0, globalCanvas.width, globalCanvas.height);
+        let data = imgData.data;
+
+        if (fullBytes.length * 8 > data.length * 0.75) {
+            statusBox.innerText = "خطأ: حجم الرسالة ضخم جداً على هذه الصورة! يرجى استخدام صورة بأبعاد أكبر.";
+            return;
+        }
+
+        let byteIndex = 0;
+        let bitIndex = 0;
+
+        for (let i = 0; i < data.length; i++) {
+            if ((i + 1) % 4 === 0) continue; 
+
+            if (byteIndex < fullBytes.length) {
+                let currentByte = fullBytes[byteIndex];
+                let bit = (currentByte >> (7 - bitIndex)) & 1;
+                
+                data[i] = (data[i] & 0xFE) | bit; 
+                
+                bitIndex++;
+                if (bitIndex === 8) {
+                    bitIndex = 0;
+                    byteIndex++;
+                }
+            } else {
+                break;
+            }
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+        let dataUrl = globalCanvas.toDataURL("image/png");
+        
+        statusBox.innerText = "تم إخفاء رسالتك العربية بنجاح داخل الصورة دون أي تغيير ظاهري!";
+        downloadArea.innerHTML = `<a href="${dataUrl}" download="encoded_image.png" class="download-link">تحميل الصورة المشرّبة بالرسالة (PNG) 💾</a>`;
+    }
+
+    // --- Decode (UTF-8) ---
+    function processDecode() {
+        let statusBox = document.getElementById('statusOutput');
+        if (!isImageLoaded) { statusBox.innerText = "خطأ: يرجى رفع الصورة التي تحتوي على الرسالة المخفية أولاً."; return; }
+
+        let imgData = ctx.getImageData(0, 0, globalCanvas.width, globalCanvas.height);
+        let data = imgData.data;
+        
+        let extractedBytes = [];
+        let currentByte = 0;
+        let bitIndex = 0;
+
+        for (let i = 0; i < data.length; i++) {
+            if ((i + 1) % 4 === 0) continue;
+
+            let bit = data[i] & 1;
+            currentByte = (currentByte << 1) | bit;
+            bitIndex++;
+
+            if (bitIndex === 8) {
+                if (currentByte === 0) break; 
+                extractedBytes.push(currentByte);
+                currentByte = 0;
+                bitIndex = 0;
+            }
+        }
+
+        if (extractedBytes.length > 0) {
+            try {
+                let decoder = new TextDecoder("utf-8");
+                let decodedMessage = decoder.decode(new Uint8Array(extractedBytes));
+                statusBox.innerText = "الرسالة المستخرجة بنجاح هي:\n\n" + decodedMessage;
+            } catch (e) {
+                statusBox.innerText = "خطأ: حدثت مشكلة أثناء فك ترميز النص.";
+            }
+        } else {
+            statusBox.innerText = "لم يتم العثور على أي رسالة سرية مشفرة داخل هذه الصورة.";
+        }
+    }
+</script>
+
+</body>
+</html>
