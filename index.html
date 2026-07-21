@@ -10,8 +10,10 @@
             --bg-dark: #fafafa;
             --panel-bg: #ffffff;
             --accent-purple: #5345ed; 
+            --accent-purple-light: #eeebff;
             --accent-green: #10b981;
             --accent-red: #ef4444;
+            --accent-blue: #3b82f6;
             --text-main: #1e1e24;
             --text-muted: #65676b;
             --border-color: #e4e6eb;
@@ -150,6 +152,142 @@
         .page-content, .sub-content, .cipher-panel { display: none; }
         .page-content.active, .sub-content.active, .cipher-panel.active { display: block; }
 
+        /* --- تصميم الواجهة الرئيسية (Hero & Dashboard) --- */
+        .hero-banner {
+            background: linear-gradient(135deg, #5345ed 0%, #2a1b9a 100%);
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 40px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(83, 69, 237, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 180px;
+            height: 180px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+        }
+
+        .hero-banner h1 {
+            font-size: 2.1rem;
+            margin-bottom: 12px;
+            font-weight: 800;
+        }
+
+        .hero-banner p {
+            font-size: 1.05rem;
+            color: #e0e0ff;
+            line-height: 1.6;
+            max-width: 750px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-purple-light);
+        }
+
+        .stat-info h3 {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #1a1c3b;
+        }
+
+        .stat-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .feature-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 12px 25px rgba(83, 69, 237, 0.12);
+        }
+
+        .feature-icon-badge {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--accent-purple-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: #1a1c3b;
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .feature-link {
+            font-weight: bold;
+            color: var(--accent-purple);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* --- الأجزاء المتبقية من العناصر والبطاقات --- */
         .card {
             background-color: var(--panel-bg);
             border-radius: 16px;
@@ -367,7 +505,6 @@
             stroke-width: 2;
         }
 
-        /* تأثير الحركة للقرص الداخلي فقط */
         .wheel-inner-group {
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
             transform-origin: 150px 150px;
@@ -416,8 +553,71 @@
 
     <div class="main-content">
 
-        <!-- الصفحة الأولى: تقييم كلمات السر -->
-        <div id="passwordPage" class="page-content active">
+        <!-- الواجهة الرئيسية الترحيبية (HomePage) -->
+        <div id="homePage" class="page-content active">
+            <div class="hero-banner">
+                <h1>أهلاً بك في المنصة التعليمية للأمن السيبراني 🛡️</h1>
+                <p>بيئة تفاعلية متكاملة لفهم خوارزميات التشفير التقليدية والحديثة، تقييم قوة كلمات المرور ومحاكاة الاختراق، وتجربة تقنيات إخفاء البيانات داخل الصور بسهولة.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">🔐</div>
+                    <div class="stat-info">
+                        <h3>3 خوارزميات</h3>
+                        <p>قيصر، فيجينير، و RSA</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">⚡</div>
+                    <div class="stat-info">
+                        <h3>تحليل فوري</h3>
+                        <p>تقدير زمن تخمين Brute-force</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🖼️</div>
+                    <div class="stat-info">
+                        <h3>Steganography</h3>
+                        <p>دمج النص في أطياف الصور</p>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-bottom: 18px; color: #1a1c3b; font-size: 1.25rem;">اختر إحدى أدوات المنصة للبدء:</h2>
+
+            <div class="features-grid">
+                <div class="feature-card" onclick="switchPage('passwordPage')">
+                    <div>
+                        <div class="feature-icon-badge">🔑</div>
+                        <h3>مختبر قوة كلمة السر</h3>
+                        <p>احسب الزمن التقديري لاختراق كلمة السر واكشف نقاط القوى والضعف فيها تحليلياً.</p>
+                    </div>
+                    <div class="feature-link">تجربة التحليل ←</div>
+                </div>
+
+                <div class="feature-card" onclick="switchPage('cipherPage')">
+                    <div>
+                        <div class="feature-icon-badge">🎡</div>
+                        <h3>عجلة قيصر وتشفير النص</h3>
+                        <p>شفر وفك التشفير مع عجلة دوارة تفاعلية وشرح كامل لخطوات الرياضية خطوة بخطوة.</p>
+                    </div>
+                    <div class="feature-link">دخول مختبر التشفير ←</div>
+                </div>
+
+                <div class="feature-card" onclick="switchPage('stegoPage')">
+                    <div>
+                        <div class="feature-icon-badge">🖼️</div>
+                        <h3>إخفاء البيانات في الصور</h3>
+                        <p>اخفِ رسائل سرية داخل ملفات الصور وحملها بصيغة PNG أو استخرج الرسائل المخفية.</p>
+                    </div>
+                    <div class="feature-link">تجربة الإخفاء ←</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- الصفحة الثانية: تقييم كلمات السر -->
+        <div id="passwordPage" class="page-content">
             <div class="card">
                 <h2>مختبر اختراق وتقييم أمان كلمة السر</h2>
                 <div class="form-group">
@@ -426,7 +626,7 @@
                 </div>
 
                 <div class="time-box">
-                    <div>الزمن التقديري لااختراق كلمة السر (هجوم Brute-Force):</div>
+                    <div>الزمن التقديري لاختراق كلمة السر (هجوم Brute-Force):</div>
                     <span id="crackTimeResult">بانتظار المدخلات...</span>
                 </div>
 
@@ -461,7 +661,7 @@
             </div>
         </div>
 
-        <!-- الصفحة الثانية: التشفير التعليمي -->
+        <!-- الصفحة الثالثة: التشفير التعليمي -->
         <div id="cipherPage" class="page-content">
             <div class="sub-menu">
                 <button id="subBtnEncrypt" class="sub-btn active" onclick="switchSubMode('encryptMode')">تشفير (Encrypt)</button>
@@ -571,11 +771,11 @@
             </div>
         </div>
 
-        <!-- الصفحة الثالثة: Steganography -->
+        <!-- الصفحة الرابعة: Steganography -->
         <div id="stegoPage" class="page-content">
             <div class="sub-menu">
                 <button id="subBtnStegoEncrypt" class="sub-btn active" onclick="switchStegoSubMode('stegoEncryptMode')">إخفاء (Hide)</button>
-                <button id="subBtnStegoDecrypt" class="sub-btn" onclick="switchStegoSubMode('stegoDecryptMode')">استخراج (Extract)</button>
+                <button id="subBtnStegoDecrypt" class="sub-btn" onclick="switchStegoSubMode('stegoDecryptMode')">استخرج (Extract)</button>
             </div>
 
             <div id="stegoEncryptMode" class="sub-content active">
@@ -616,8 +816,9 @@
     <!-- الشريط الجانبي -->
     <div class="sidebar">
         <div class="nav-menu">
-            <button id="btnPasswordPage" class="nav-btn active" onclick="switchPage('passwordPage')">تقييم وحساب أمان كلمات السر</button>
-            <button id="btnCipherPage" class="nav-btn" onclick="switchPage('cipherPage')">التشفير التعليمي (Ciphers)</button>
+            <button id="btnHomePage" class="nav-btn active" onclick="switchPage('homePage')">🏠 الواجهة الرئيسية</button>
+            <button id="btnPasswordPage" class="nav-btn" onclick="switchPage('passwordPage')">🔑 تقييم وأمان كلمات السر</button>
+            <button id="btnCipherPage" class="nav-btn" onclick="switchPage('cipherPage')">🎡 التشفير التعليمي (Ciphers)</button>
             
             <div id="sidebarCipherMenu" class="sidebar-sub-menu">
                 <button class="sidebar-sub-btn active" onclick="selectCipherType('caesar', this)">• Caesar Cipher (قيصر)</button>
@@ -625,7 +826,7 @@
                 <button class="sidebar-sub-btn" onclick="selectCipherType('rsa', this)">• RSA (مفتاح عام)</button>
             </div>
 
-            <button id="btnStegoPage" class="nav-btn" onclick="switchPage('stegoPage')">إخفاء البيانات في الصور</button>
+            <button id="btnStegoPage" class="nav-btn" onclick="switchPage('stegoPage')">🖼️ إخفاء البيانات في الصور</button>
         </div>
 
         <div class="qr-section">
@@ -661,7 +862,10 @@
         const subMenu = document.getElementById('sidebarCipherMenu');
         document.getElementById(pageId).classList.add('active');
         
-        if(pageId === 'passwordPage') {
+        if(pageId === 'homePage') {
+            document.getElementById('btnHomePage').classList.add('active');
+            subMenu.classList.remove('open');
+        } else if(pageId === 'passwordPage') {
             document.getElementById('btnPasswordPage').classList.add('active');
             subMenu.classList.remove('open');
         } else if(pageId === 'cipherPage') {
@@ -721,7 +925,6 @@
         processCipher(true);
     }
 
-    // بناء عجلة قيصر: الحلقة الخارجية ثابته تماماً، والحلقة الداخلية داخل دالة مجموعة قابلة للتدوير فقط
     function renderCaesarWheelSVG(svgId) {
         const svg = document.getElementById(svgId);
         if (!svg) return;
@@ -731,7 +934,6 @@
         const rOuter = 125;
         const rInner = 88;
 
-        // 1. الحلقة الخارجية والحروف الخارجية (ثابتة تماماً)
         let html = `
             <circle cx="${center}" cy="${center}" r="140" class="wheel-outer-circle" />
         `;
@@ -744,7 +946,6 @@
             html += `<text x="${x}" y="${y}" class="wheel-text-outer">${alphabet[i]}</text>`;
         }
 
-        // 2. القرص الداخلي والحروف الداخلية (داخل مجموعة قابلة للتدوير)
         html += `
             <g id="${svgId}_innerGroup" class="wheel-inner-group">
                 <circle cx="${center}" cy="${center}" r="105" style="fill: #eef2ff; stroke: #5345ed; stroke-width: 2;" />
@@ -763,7 +964,6 @@
         svg.innerHTML = html;
     }
 
-    // تدوير القرص الداخلي فقط حسب قيمة الإزاحة
     function updateWheelRotation(shiftKey, isEncrypt, svgId) {
         const innerGroup = document.getElementById(svgId + '_innerGroup');
         if (!innerGroup) return;
@@ -772,7 +972,6 @@
         let degreesPerLetter = 360 / 26;
         let rotAngle = isEncrypt ? -(k * degreesPerLetter) : (k * degreesPerLetter);
         
-        // تطبيق التدوير عبر الـ Style ليتم استخدام تأثير الترانزيشن السلس في CSS
         innerGroup.style.transform = `rotate(${rotAngle}deg)`;
     }
 
