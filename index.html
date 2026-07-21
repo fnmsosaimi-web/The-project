@@ -17,7 +17,6 @@
             --text-main: #1e1e24;
             --text-muted: #65676b;
             --border-color: #e4e6eb;
-            --sidebar-width: 260px;
         }
 
         * {
@@ -31,113 +30,255 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             min-height: 100vh;
-            display: flex;
-            flex-direction: row;
         }
 
-        .app-container {
+        /* الهيكل العام للموقع */
+        .app-layout {
             display: flex;
-            width: 100%;
-            min-height: 100vh;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+            gap: 25px;
         }
 
         .main-content {
             flex: 1;
-            padding: 40px;
-            overflow-y: auto;
-            max-width: 950px;
-            margin: 0 auto;
+            min-width: 0;
         }
 
-        .sidebar {
-            width: var(--sidebar-width);
+        /* شريط الـ QR الجانبي بارز وثابت */
+        .qr-sidebar {
+            width: 240px;
+            flex-shrink: 0;
+        }
+
+        .qr-card-sticky {
+            position: sticky;
+            top: 20px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .qr-card-sticky h3 {
+            font-size: 1rem;
+            color: #1a1c3b;
+            margin-bottom: 6px;
+        }
+
+        .qr-card-sticky p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        #qrcode {
+            background: white;
+            padding: 12px;
+            border-radius: 14px;
+            border: 2px solid var(--accent-purple-light);
+            box-shadow: 0 4px 12px rgba(83, 69, 237, 0.08);
+            display: inline-block;
+        }
+
+        /* شريط التنقل العلوي الأنيق */
+        .top-navbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            background: var(--panel-bg);
+            padding: 10px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .nav-tab:hover {
+            color: var(--accent-purple);
+            background: var(--accent-purple-light);
+        }
+
+        .nav-tab.active {
+            background: var(--accent-purple);
+            color: #ffffff;
+        }
+
+        /* الأقسام والصفحات */
+        .page-content, .sub-content, .cipher-panel { display: none; }
+        .page-content.active, .sub-content.active, .cipher-panel.active { display: block; }
+
+        /* الواجهة الرئيسية الترحيبية */
+        .hero-banner {
+            background: linear-gradient(135deg, #5345ed 0%, #2a1b9a 100%);
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 35px 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(83, 69, 237, 0.18);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-banner h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .hero-banner p {
+            font-size: 1rem;
+            color: #e0e0ff;
+            line-height: 1.6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stat-icon {
+            font-size: 1.8rem;
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent-purple-light);
+        }
+
+        .stat-info h3 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #1a1c3b;
+        }
+
+        .stat-info p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
             background-color: var(--panel-bg);
-            border-right: 1px solid var(--border-color);
-            padding: 30px 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 22px;
+            cursor: pointer;
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            order: 2;
         }
 
-        .nav-menu {
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-purple);
+            box-shadow: 0 10px 20px rgba(83, 69, 237, 0.1);
+        }
+
+        .feature-icon-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            background: var(--accent-purple-light);
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 12px;
         }
 
-        .nav-btn {
-            background-color: transparent;
+        .feature-card h3 {
             color: #1a1c3b;
-            padding: 14px 18px;
-            border: 2px solid #dbdee3;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: right;
-            width: 100%;
-        }
-
-        .nav-btn:hover { border-color: var(--accent-purple); }
-        .nav-btn.active {
-            background-color: var(--accent-purple);
-            color: #ffffff;
-            border-color: var(--accent-purple);
-        }
-
-        .sidebar-sub-menu {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            padding-right: 12px;
-            margin-top: 2px;
+            font-size: 1.1rem;
             margin-bottom: 6px;
-            border-right: 3px solid var(--accent-purple);
         }
 
-        .sidebar-sub-menu.open { display: flex; }
-
-        .sidebar-sub-btn {
-            background-color: #f5f6f8;
+        .feature-card p {
             color: var(--text-muted);
-            padding: 10px 14px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
             font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            text-align: right;
-            transition: all 0.2s ease;
+            line-height: 1.5;
+            margin-bottom: 15px;
         }
 
-        .sidebar-sub-btn:hover {
-            border-color: var(--accent-purple);
+        .feature-link {
+            font-weight: bold;
             color: var(--accent-purple);
+            font-size: 0.88rem;
         }
 
-        .sidebar-sub-btn.active {
-            background-color: #eef2ff;
-            color: var(--accent-purple);
-            border-color: var(--accent-purple);
-            font-weight: 700;
+        /* عناصر النموذج والتصميم العام */
+        .card {
+            background-color: var(--panel-bg);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            color: #1a1c3b;
+            font-size: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
         }
 
         .sub-menu {
             display: flex;
             justify-content: center;
             gap: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .sub-btn {
             background-color: transparent;
             color: var(--text-muted);
-            padding: 8px 22px;
+            padding: 8px 20px;
             border: 2px solid #dbdee3;
             border-radius: 30px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -149,199 +290,99 @@
             border-color: var(--accent-purple);
         }
 
-        .page-content, .sub-content, .cipher-panel { display: none; }
-        .page-content.active, .sub-content.active, .cipher-panel.active { display: block; }
-
-        /* --- تصميم الواجهة الرئيسية (Hero & Dashboard) --- */
-        .hero-banner {
-            background: linear-gradient(135deg, #5345ed 0%, #2a1b9a 100%);
-            color: #ffffff;
-            border-radius: 20px;
-            padding: 40px 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 25px rgba(83, 69, 237, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-banner::before {
-            content: '';
-            position: absolute;
-            top: -50px;
-            left: -50px;
-            width: 180px;
-            height: 180px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 50%;
-        }
-
-        .hero-banner h1 {
-            font-size: 2.1rem;
-            margin-bottom: 12px;
-            font-weight: 800;
-        }
-
-        .hero-banner p {
-            font-size: 1.05rem;
-            color: #e0e0ff;
-            line-height: 1.6;
-            max-width: 750px;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            padding: 20px;
+        .cipher-selector-bar {
             display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-        }
-
-        .stat-icon {
-            font-size: 2rem;
-            width: 50px;
-            height: 50px;
+            gap: 10px;
+            margin-bottom: 20px;
+            background: #f5f6f8;
+            padding: 6px;
             border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--accent-purple-light);
         }
 
-        .stat-info h3 {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #1a1c3b;
-        }
-
-        .stat-info p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .feature-card {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 25px;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-purple);
-            box-shadow: 0 12px 25px rgba(83, 69, 237, 0.12);
-        }
-
-        .feature-icon-badge {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            background: var(--accent-purple-light);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-        }
-
-        .feature-card h3 {
-            color: #1a1c3b;
-            font-size: 1.15rem;
-            margin-bottom: 8px;
-        }
-
-        .feature-card p {
-            color: var(--text-muted);
+        .cipher-select-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            border-radius: 8px;
+            font-weight: 700;
             font-size: 0.88rem;
-            line-height: 1.5;
-            margin-bottom: 20px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
-        .feature-link {
-            font-weight: bold;
+        .cipher-select-btn.active {
+            background: #ffffff;
             color: var(--accent-purple);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
         }
 
-        /* --- الأجزاء المتبقية من العناصر والبطاقات --- */
-        .card {
-            background-color: var(--panel-bg);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border-color);
-            margin-bottom: 25px;
-        }
-
-        .card h2 {
-            margin-bottom: 20px;
-            color: #1a1c3b;
-            font-size: 1.3rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 12px;
-        }
-
-        .form-group { margin-bottom: 20px; }
+        .form-group { margin-bottom: 18px; }
 
         label {
             display: block;
             margin-bottom: 8px;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             font-weight: 600;
         }
 
         input[type="text"], input[type="number"], input[type="password"], textarea, select, input[type="file"] {
             width: 100%;
-            padding: 14px;
+            padding: 12px 14px;
             background-color: #f5f6f8;
             border: 1px solid transparent;
             border-radius: 10px;
             color: var(--text-main);
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: all 0.3s;
+        }
+
+        /* تنسيق خاص لزر وحقل كلمة السر الإظهار والإخفاء */
+        .password-field-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-field-wrapper input {
+            padding-left: 45px; /* ترك مسافة لزر الإظهار من جهة اليسار */
+        }
+
+        .toggle-password-btn {
+            position: absolute;
+            left: 10px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 4px 8px;
+            border-radius: 6px;
+            color: var(--text-muted);
+            transition: background 0.2s;
+        }
+
+        .toggle-password-btn:hover {
+            background: #e4e6eb;
         }
 
         input:focus, textarea:focus, select:focus {
             outline: none;
             background-color: #ffffff;
             border-color: var(--accent-purple);
-            box-shadow: 0 0 0 4px rgba(83, 69, 237, 0.15);
+            box-shadow: 0 0 0 3px rgba(83, 69, 237, 0.15);
         }
 
         button.action-btn {
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             border: none;
             border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
             transition: opacity 0.2s;
-            font-size: 1rem;
+            font-size: 0.95rem;
             margin-top: 10px;
         }
 
@@ -350,8 +391,8 @@
         .btn-dark { background-color: #1a1c3b; color: white; }
 
         .output-box {
-            margin-top: 25px;
-            padding: 18px;
+            margin-top: 20px;
+            padding: 16px;
             background-color: #f5f6f8;
             border-right: 4px solid var(--accent-purple);
             border-radius: 8px;
@@ -369,17 +410,17 @@
 
         .time-box span {
             display: block;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 800;
             color: var(--accent-purple);
-            margin-top: 5px;
+            margin-top: 4px;
         }
 
         .strength-meter {
-            height: 10px;
+            height: 8px;
             background-color: #e4e6eb;
-            border-radius: 5px;
-            margin-top: 12px;
+            border-radius: 4px;
+            margin-top: 10px;
             overflow: hidden;
         }
 
@@ -400,87 +441,69 @@
         .step-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 10px;
+            gap: 10px;
+            padding: 8px 12px;
             background: white;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
+            margin-bottom: 6px;
+            font-size: 0.88rem;
         }
 
         .step-badge {
             background-color: var(--accent-purple);
             color: white;
-            padding: 4px 8px;
+            padding: 3px 6px;
             border-radius: 6px;
             font-weight: bold;
-            font-size: 0.8rem;
-            min-width: 32px;
+            font-size: 0.78rem;
+            min-width: 28px;
             text-align: center;
         }
 
         .analysis-section {
-            margin-top: 20px;
+            margin-top: 18px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 12px;
         }
 
         .analysis-box {
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
-            font-size: 0.88rem;
+            font-size: 0.85rem;
         }
 
         .analysis-box.strengths { background-color: #f0fdf4; border: 1px solid #bbf7d0; }
         .analysis-box.weaknesses { background-color: #fef2f2; border: 1px solid #fecaca; }
 
         .analysis-box h4 {
-            font-size: 0.95rem;
-            margin-bottom: 10px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
         }
 
         .analysis-box.strengths h4 { color: #166534; }
         .analysis-box.weaknesses h4 { color: #991b1b; }
 
         .analysis-box ul { list-style: none; }
-        .analysis-box li { margin-bottom: 6px; line-height: 1.4; }
+        .analysis-box li { margin-bottom: 4px; line-height: 1.4; }
 
         canvas {
             max-width: 100%;
-            max-height: 200px;
+            max-height: 180px;
             border: 1px dashed #dbdee3;
             border-radius: 10px;
             display: block;
             margin: 15px auto 0 auto;
         }
 
-        .qr-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px dashed var(--border-color);
-        }
-
-        #qrcode {
-            background: white;
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            border: 1px solid var(--border-color);
-        }
-
-        /* --- تصميم عجلة قيصر الدوارة التفاعلية --- */
+        /* عجلة قيصر */
         .wheel-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 20px 0;
-            padding: 15px;
+            margin: 15px 0;
+            padding: 12px;
             background: #f8fafc;
             border-radius: 12px;
             border: 1px dashed #cbd5e1;
@@ -488,23 +511,13 @@
 
         .wheel-container {
             position: relative;
-            width: 280px;
-            height: 280px;
-            margin: 10px auto;
+            width: 250px;
+            height: 250px;
+            margin: 8px auto;
         }
 
-        .wheel-container svg {
-            width: 100%;
-            height: 100%;
-            overflow: visible;
-        }
-
-        .wheel-outer-circle {
-            fill: #ffffff;
-            stroke: #cbd5e1;
-            stroke-width: 2;
-        }
-
+        .wheel-container svg { width: 100%; height: 100%; overflow: visible; }
+        .wheel-outer-circle { fill: #ffffff; stroke: #cbd5e1; stroke-width: 2; }
         .wheel-inner-group {
             transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
             transform-origin: 150px 150px;
@@ -533,31 +546,40 @@
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 8px solid transparent;
-            border-right: 8px solid transparent;
-            border-top: 12px solid var(--accent-red);
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-top: 11px solid var(--accent-red);
             z-index: 10;
         }
 
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column; }
-            .sidebar { width: 100%; order: 1; }
-            .main-content { order: 2; padding: 20px; }
+        @media (max-width: 850px) {
+            .app-layout { flex-direction: column; }
+            .qr-sidebar { width: 100%; }
+            .qr-card-sticky { position: static; }
             .analysis-section { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<div class="app-container">
+<div class="app-layout">
 
+    <!-- الجزء الرئيسي للواجهة والمحتوى -->
     <div class="main-content">
 
-        <!-- الواجهة الرئيسية الترحيبية (HomePage) -->
+        <!-- شريط التنقل العلوي الأنيق -->
+        <div class="top-navbar">
+            <button id="navHomePage" class="nav-tab active" onclick="switchPage('homePage')">🏠 الرئيسية</button>
+            <button id="navPasswordPage" class="nav-tab" onclick="switchPage('passwordPage')">🔑 اختبار كلمات السر</button>
+            <button id="navCipherPage" class="nav-tab" onclick="switchPage('cipherPage')">🎡 التشفير التعليمي</button>
+            <button id="navStegoPage" class="nav-tab" onclick="switchPage('stegoPage')">🖼️ إخفاء البيانات بالصور</button>
+        </div>
+
+        <!-- الصفحة الرئيسية (Dashboard) -->
         <div id="homePage" class="page-content active">
             <div class="hero-banner">
-                <h1>أهلاً بك في المنصة التعليمية للأمن السيبراني 🛡️</h1>
-                <p>بيئة تفاعلية متكاملة لفهم خوارزميات التشفير التقليدية والحديثة، تقييم قوة كلمات المرور ومحاكاة الاختراق، وتجربة تقنيات إخفاء البيانات داخل الصور بسهولة.</p>
+                <h1>المنصة التعليمية للأمن السيبراني 🛡️</h1>
+                <p>منصة تفاعلية مبسطة لفهم خوارزميات التشفير التقليدية والحديثة، تقييم متانة كلمات المرور، وتجربة تقنيات إخفاء الرسائل داخل الصور.</p>
             </div>
 
             <div class="stats-grid">
@@ -565,64 +587,69 @@
                     <div class="stat-icon">🔐</div>
                     <div class="stat-info">
                         <h3>3 خوارزميات</h3>
-                        <p>قيصر، فيجينير، و RSA</p>
+                        <p>قيصر، فيجينير، RSA</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon">⚡</div>
                     <div class="stat-info">
                         <h3>تحليل فوري</h3>
-                        <p>تقدير زمن تخمين Brute-force</p>
+                        <p>تخمين وقت الاختراق</p>
                     </div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-icon">🖼️</div>
                     <div class="stat-info">
                         <h3>Steganography</h3>
-                        <p>دمج النص في أطياف الصور</p>
+                        <p>دمج النص بالصور</p>
                     </div>
                 </div>
             </div>
 
-            <h2 style="margin-bottom: 18px; color: #1a1c3b; font-size: 1.25rem;">اختر إحدى أدوات المنصة للبدء:</h2>
+            <h2 style="margin-bottom: 15px; color: #1a1c3b; font-size: 1.15rem;">اختر إحدى الأدوات للبدء:</h2>
 
             <div class="features-grid">
                 <div class="feature-card" onclick="switchPage('passwordPage')">
                     <div>
                         <div class="feature-icon-badge">🔑</div>
                         <h3>مختبر قوة كلمة السر</h3>
-                        <p>احسب الزمن التقديري لاختراق كلمة السر واكشف نقاط القوى والضعف فيها تحليلياً.</p>
+                        <p>احسب الزمن التقديري لاختراق كلمة السر واكشف نقاط القوة والضعف فيها بالكامل.</p>
                     </div>
-                    <div class="feature-link">تجربة التحليل ←</div>
+                    <div class="feature-link">فتح الأداة ←</div>
                 </div>
 
                 <div class="feature-card" onclick="switchPage('cipherPage')">
                     <div>
                         <div class="feature-icon-badge">🎡</div>
-                        <h3>عجلة قيصر وتشفير النص</h3>
-                        <p>شفر وفك التشفير مع عجلة دوارة تفاعلية وشرح كامل لخطوات الرياضية خطوة بخطوة.</p>
+                        <h3>التشفير وعجلة قيصر</h3>
+                        <p>شفر النصوص وفكها مع العجلة التفاعلية وشرح الخطوات الرياضية خطوة بخطوة.</p>
                     </div>
-                    <div class="feature-link">دخول مختبر التشفير ←</div>
+                    <div class="feature-link">فتح الأداة ←</div>
                 </div>
 
                 <div class="feature-card" onclick="switchPage('stegoPage')">
                     <div>
                         <div class="feature-icon-badge">🖼️</div>
                         <h3>إخفاء البيانات في الصور</h3>
-                        <p>اخفِ رسائل سرية داخل ملفات الصور وحملها بصيغة PNG أو استخرج الرسائل المخفية.</p>
+                        <p>اخفِ رسائلك السرية بداخل الصور واستخرجها بسهولة دون ملاحظة التغيير.</p>
                     </div>
-                    <div class="feature-link">تجربة الإخفاء ←</div>
+                    <div class="feature-link">فتح الأداة ←</div>
                 </div>
             </div>
         </div>
 
-        <!-- الصفحة الثانية: تقييم كلمات السر -->
+        <!-- صفحة اختبار كلمة السر -->
         <div id="passwordPage" class="page-content">
             <div class="card">
                 <h2>مختبر اختراق وتقييم أمان كلمة السر</h2>
                 <div class="form-group">
                     <label>أدخل كلمة السر للاختبار والتحليل الفوري:</label>
-                    <input type="password" id="passwordInput" oninput="evaluatePassword()" placeholder="اكتب كلمة السر هنا...">
+                    
+                    <!-- حقل كلمة السر المضاف إليه زر الإظهار والإخفاء -->
+                    <div class="password-field-wrapper">
+                        <input type="password" id="passwordInput" oninput="evaluatePassword()" placeholder="اكتب كلمة السر هنا...">
+                        <button type="button" class="toggle-password-btn" id="togglePasswordBtn" onclick="togglePasswordVisibility()" title="إظهار/إخفاء كلمة السر">👁️</button>
+                    </div>
                 </div>
 
                 <div class="time-box">
@@ -630,21 +657,21 @@
                     <span id="crackTimeResult">بانتظار المدخلات...</span>
                 </div>
 
-                <div style="margin: 20px 0;">
+                <div style="margin: 18px 0;">
                     <label>مستوى الأمان:</label>
                     <div class="strength-meter">
                         <div id="strengthBar" class="strength-bar"></div>
                     </div>
                 </div>
                 
-                <div style="display: flex; align-items: center; justify-content: space-between; background: #f5f6f8; padding: 15px; border-radius: 10px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; background: #f5f6f8; padding: 12px 16px; border-radius: 10px;">
                     <div>
-                        <span style="color: var(--text-muted); font-size: 0.85rem; display: block;">التقييم الفني:</span>
-                        <div id="passwordFeedback" style="font-weight: bold; margin-top: 4px;">أدخل كلمة سر للتحليل...</div>
+                        <span style="color: var(--text-muted); font-size: 0.8rem; display: block;">التقييم الفني:</span>
+                        <div id="passwordFeedback" style="font-weight: bold; margin-top: 2px;">أدخل كلمة سر للتحليل...</div>
                     </div>
                     <div style="text-align: center;">
-                        <span style="color: var(--text-muted); font-size: 0.85rem; display: block;">الدرجة</span>
-                        <div id="scoreBadge" style="font-weight: bold; font-size: 1.1rem; color: var(--accent-purple);">0/100</div>
+                        <span style="color: var(--text-muted); font-size: 0.8rem; display: block;">الدرجة</span>
+                        <div id="scoreBadge" style="font-weight: bold; font-size: 1.05rem; color: var(--accent-purple);">0/100</div>
                     </div>
                 </div>
 
@@ -661,17 +688,23 @@
             </div>
         </div>
 
-        <!-- الصفحة الثالثة: التشفير التعليمي -->
+        <!-- صفحة التشفير التعليمي -->
         <div id="cipherPage" class="page-content">
-            <div class="sub-menu">
-                <button id="subBtnEncrypt" class="sub-btn active" onclick="switchSubMode('encryptMode')">تشفير (Encrypt)</button>
-                <button id="subBtnDecrypt" class="sub-btn" onclick="switchSubMode('decryptMode')">فك تشفير (Decrypt)</button>
-            </div>
+            <div class="card">
+                <div class="sub-menu">
+                    <button id="subBtnEncrypt" class="sub-btn active" onclick="switchSubMode('encryptMode')">تشفير (Encrypt)</button>
+                    <button id="subBtnDecrypt" class="sub-btn" onclick="switchSubMode('decryptMode')">فك تشفير (Decrypt)</button>
+                </div>
 
-            <div id="encryptMode" class="sub-content active">
-                <div class="card">
-                    <h2 id="encTitle">أدوات التشفير التعليمية</h2>
+                <!-- شريط اختيار نوع الخوارزمية داخل الصفحة -->
+                <div class="cipher-selector-bar">
+                    <button class="cipher-select-btn active" onclick="selectCipherType('caesar', this)">Caesar (قيصر)</button>
+                    <button class="cipher-select-btn" onclick="selectCipherType('vigenere', this)">Vigenère (فيجينير)</button>
+                    <button class="cipher-select-btn" onclick="selectCipherType('rsa', this)">RSA (المفتاح العام)</button>
+                </div>
 
+                <!-- وضع التشفير -->
+                <div id="encryptMode" class="sub-content active">
                     <div id="panelCaesarEnc" class="cipher-panel active">
                         <div class="form-group">
                             <label>مفتاح الإزاحة Shift Key (رقم):</label>
@@ -679,7 +712,7 @@
                         </div>
                         <div class="wheel-wrapper">
                             <label style="margin-bottom: 2px;">🎡 عجلة قيصر الدوارة التفاعلية:</label>
-                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">القرص الخارجي (ثابت) | القرص الداخلي (يدور حسب الإزاحة)</p>
+                            <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 6px;">القرص الخارجي ثنائي | الداخلي يدور حسب الإزاحة</p>
                             <div class="wheel-container">
                                 <div class="wheel-pointer"></div>
                                 <svg viewBox="0 0 300 300" id="caesarWheelEncSVG"></svg>
@@ -702,27 +735,24 @@
 
                     <div class="form-group">
                         <label>النص المراد تشفيره (Plaintext):</label>
-                        <textarea id="cipherInputEnc" rows="3" placeholder="اكتب نصاً للتشفير..." oninput="processCipher(true)">HELLO</textarea>
+                        <textarea id="cipherInputEnc" rows="2" placeholder="اكتب نصاً للتشفير..." oninput="processCipher(true)">HELLO</textarea>
                     </div>
 
                     <button class="action-btn btn-purple" onclick="processCipher(true)">تنفيذ التشفير</button>
 
                     <div class="output-box">
                         <strong>النص المشفر الناتج (Ciphertext):</strong>
-                        <div id="cipherOutputEnc" style="margin-top: 8px; font-family: monospace; font-size: 1.1rem; color: var(--accent-purple);">--</div>
+                        <div id="cipherOutputEnc" style="margin-top: 6px; font-family: monospace; font-size: 1.05rem; color: var(--accent-purple);">--</div>
                     </div>
 
                     <div id="eduSectionEnc" class="edu-steps-container" style="display:none;">
-                        <h4 style="margin-bottom: 10px; color: #1a1c3b;">📚 خطوات التشفير بالتفصيل:</h4>
+                        <h4 style="margin-bottom: 8px; color: #1a1c3b;">📚 خطوات التشفير بالتفصيل:</h4>
                         <div id="stepsListEnc"></div>
                     </div>
                 </div>
-            </div>
 
-            <div id="decryptMode" class="sub-content">
-                <div class="card">
-                    <h2 id="decTitle">أدوات فك التشفير</h2>
-
+                <!-- وضع فك التشفير -->
+                <div id="decryptMode" class="sub-content">
                     <div id="panelCaesarDec" class="cipher-panel active">
                         <div class="form-group">
                             <label>مفتاح الإزاحة Shift Key (رقم):</label>
@@ -730,7 +760,6 @@
                         </div>
                         <div class="wheel-wrapper">
                             <label style="margin-bottom: 2px;">🎡 عجلة قيصر الدوارة التفاعلية:</label>
-                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">القرص الخارجي (ثابت) | القرص الداخلي (يدور حسب الإزاحة)</p>
                             <div class="wheel-container">
                                 <div class="wheel-pointer"></div>
                                 <svg viewBox="0 0 300 300" id="caesarWheelDecSVG"></svg>
@@ -753,33 +782,33 @@
 
                     <div class="form-group">
                         <label>النص المشفر المراد فكه:</label>
-                        <textarea id="cipherInputDec" rows="3" placeholder="أدخل النص المشفر..." oninput="processCipher(false)">KHOOR</textarea>
+                        <textarea id="cipherInputDec" rows="2" placeholder="أدخل النص المشفر..." oninput="processCipher(false)">KHOOR</textarea>
                     </div>
 
                     <button class="action-btn btn-purple" onclick="processCipher(false)">فك التشفير الآن</button>
 
                     <div class="output-box">
                         <strong>النص الأصلي المستخرج:</strong>
-                        <div id="cipherOutputDec" style="margin-top: 8px; font-family: monospace; font-size: 1.1rem; color: var(--accent-green);">--</div>
+                        <div id="cipherOutputDec" style="margin-top: 6px; font-family: monospace; font-size: 1.05rem; color: var(--accent-green);">--</div>
                     </div>
 
                     <div id="eduSectionDec" class="edu-steps-container" style="display:none;">
-                        <h4 style="margin-bottom: 10px; color: #1a1c3b;">📚 خطوات فك التشفير بالتفصيل:</h4>
+                        <h4 style="margin-bottom: 8px; color: #1a1c3b;">📚 خطوات فك التشفير بالتفصيل:</h4>
                         <div id="stepsListDec"></div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- الصفحة الرابعة: Steganography -->
+        <!-- صفحة إخفاء البيانات في الصور -->
         <div id="stegoPage" class="page-content">
-            <div class="sub-menu">
-                <button id="subBtnStegoEncrypt" class="sub-btn active" onclick="switchStegoSubMode('stegoEncryptMode')">إخفاء (Hide)</button>
-                <button id="subBtnStegoDecrypt" class="sub-btn" onclick="switchStegoSubMode('stegoDecryptMode')">استخرج (Extract)</button>
-            </div>
+            <div class="card">
+                <div class="sub-menu">
+                    <button id="subBtnStegoEncrypt" class="sub-btn active" onclick="switchStegoSubMode('stegoEncryptMode')">إخفاء (Hide)</button>
+                    <button id="subBtnStegoDecrypt" class="sub-btn" onclick="switchStegoSubMode('stegoDecryptMode')">استخراج (Extract)</button>
+                </div>
 
-            <div id="stegoEncryptMode" class="sub-content active">
-                <div class="card">
+                <div id="stegoEncryptMode" class="sub-content active">
                     <h2>إخفاء نص داخل صورة (Steganography)</h2>
                     <div class="form-group">
                         <label>اختر صورة (PNG):</label>
@@ -792,10 +821,8 @@
                     </div>
                     <button class="action-btn btn-purple" onclick="hideMessage()">دمج الرسالة وتحميل الصورة</button>
                 </div>
-            </div>
 
-            <div id="stegoDecryptMode" class="sub-content">
-                <div class="card">
+                <div id="stegoDecryptMode" class="sub-content">
                     <h2>استخراج الرسالة من الصورة</h2>
                     <div class="form-group">
                         <label>رفع الصورة المحملة بالرسالة:</label>
@@ -805,7 +832,7 @@
                     <button class="action-btn btn-dark" onclick="revealMessage()">قراءة الرسالة المخفية</button>
                     <div class="output-box">
                         <strong>الرسالة المستخرجة:</strong>
-                        <div id="stegoOutputDec" style="margin-top: 8px;">بانتظار قراءة البيانات...</div>
+                        <div id="stegoOutputDec" style="margin-top: 6px;">بانتظار قراءة البيانات...</div>
                     </div>
                 </div>
             </div>
@@ -813,24 +840,11 @@
 
     </div>
 
-    <!-- الشريط الجانبي -->
-    <div class="sidebar">
-        <div class="nav-menu">
-            <button id="btnHomePage" class="nav-btn active" onclick="switchPage('homePage')">🏠 الواجهة الرئيسية</button>
-            <button id="btnPasswordPage" class="nav-btn" onclick="switchPage('passwordPage')">🔑 تقييم وأمان كلمات السر</button>
-            <button id="btnCipherPage" class="nav-btn" onclick="switchPage('cipherPage')">🎡 التشفير التعليمي (Ciphers)</button>
-            
-            <div id="sidebarCipherMenu" class="sidebar-sub-menu">
-                <button class="sidebar-sub-btn active" onclick="selectCipherType('caesar', this)">• Caesar Cipher (قيصر)</button>
-                <button class="sidebar-sub-btn" onclick="selectCipherType('vigenere', this)">• Vigenère Cipher (فيجينير)</button>
-                <button class="sidebar-sub-btn" onclick="selectCipherType('rsa', this)">• RSA (مفتاح عام)</button>
-            </div>
-
-            <button id="btnStegoPage" class="nav-btn" onclick="switchPage('stegoPage')">🖼️ إخفاء البيانات في الصور</button>
-        </div>
-
-        <div class="qr-section">
-            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px;">رابط التطبيق عبر QR:</p>
+    <!-- الشريط الجانبي الثابت لـ QR Code بشكل ظاهر وأنيق -->
+    <div class="qr-sidebar">
+        <div class="qr-card-sticky">
+            <h3>📱 الوصول السريع عبر الجوال</h3>
+            <p>امسح الرمز أدناه بفتح الكاميرا للانتقال المباشر للمنصة</p>
             <div id="qrcode"></div>
         </div>
     </div>
@@ -843,9 +857,9 @@
     window.addEventListener('DOMContentLoaded', () => {
         new QRCode(document.getElementById("qrcode"), {
             text: window.location.href,
-            width: 110,
-            height: 110,
-            colorDark: "#1a1c3b",
+            width: 130,
+            height: 130,
+            colorDark: "#5345ed",
             colorLight: "#ffffff"
         });
         
@@ -855,26 +869,30 @@
         processCipher(true);
     });
 
+    // دالة إظهار وإخفاء كلمة السر المضافة
+    function togglePasswordVisibility() {
+        const pwdInput = document.getElementById('passwordInput');
+        const toggleBtn = document.getElementById('togglePasswordBtn');
+        
+        if (pwdInput.type === 'password') {
+            pwdInput.type = 'text';
+            toggleBtn.textContent = '🙈';
+        } else {
+            pwdInput.type = 'password';
+            toggleBtn.textContent = '👁️';
+        }
+    }
+
     function switchPage(pageId) {
         document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
         
-        const subMenu = document.getElementById('sidebarCipherMenu');
         document.getElementById(pageId).classList.add('active');
         
-        if(pageId === 'homePage') {
-            document.getElementById('btnHomePage').classList.add('active');
-            subMenu.classList.remove('open');
-        } else if(pageId === 'passwordPage') {
-            document.getElementById('btnPasswordPage').classList.add('active');
-            subMenu.classList.remove('open');
-        } else if(pageId === 'cipherPage') {
-            document.getElementById('btnCipherPage').classList.add('active');
-            subMenu.classList.add('open');
-        } else if(pageId === 'stegoPage') {
-            document.getElementById('btnStegoPage').classList.add('active');
-            subMenu.classList.remove('open');
-        }
+        if(pageId === 'homePage') document.getElementById('navHomePage').classList.add('active');
+        else if(pageId === 'passwordPage') document.getElementById('navPasswordPage').classList.add('active');
+        else if(pageId === 'cipherPage') document.getElementById('navCipherPage').classList.add('active');
+        else if(pageId === 'stegoPage') document.getElementById('navStegoPage').classList.add('active');
     }
 
     function switchSubMode(modeId) {
@@ -894,373 +912,280 @@
         document.querySelectorAll('#stegoPage .sub-content').forEach(c => c.classList.remove('active'));
         document.querySelectorAll('#stegoPage .sub-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(modeId).classList.add('active');
-        if(modeId === 'stegoEncryptMode') document.getElementById('subBtnStegoEncrypt').classList.add('active');
-        else document.getElementById('subBtnStegoDecrypt').classList.add('active');
+        if(modeId === 'stegoEncryptMode') {
+            document.getElementById('subBtnStegoEncrypt').classList.add('active');
+        } else {
+            document.getElementById('subBtnStegoDecrypt').classList.add('active');
+        }
     }
 
-    function selectCipherType(cipherType, btnElement) {
-        selectedCipher = cipherType;
-        const parent = btnElement.parentElement;
-        parent.querySelectorAll('.sidebar-sub-btn').forEach(btn => btn.classList.remove('active'));
-        btnElement.classList.add('active');
+    function selectCipherType(type, btnElem) {
+        selectedCipher = type;
+        document.querySelectorAll('.cipher-select-btn').forEach(b => b.classList.remove('active'));
+        btnElem.classList.add('active');
 
-        document.querySelectorAll('.cipher-panel').forEach(panel => panel.classList.remove('active'));
+        // إخفاء كافة الواجهات الخاصة بالخوارزميات
+        document.querySelectorAll('.cipher-panel').forEach(p => p.classList.remove('active'));
 
-        if (cipherType === 'caesar') {
+        // إظهار اللوحة المطلوبة
+        if(type === 'caesar') {
             document.getElementById('panelCaesarEnc').classList.add('active');
             document.getElementById('panelCaesarDec').classList.add('active');
-            document.getElementById('encTitle').innerText = "تشفير قيصر (Caesar Cipher) - تعليمي";
-            document.getElementById('decTitle').innerText = "فك تشفير قيصر (Caesar Cipher)";
-        } else if (cipherType === 'vigenere') {
+        } else if(type === 'vigenere') {
             document.getElementById('panelVigenereEnc').classList.add('active');
             document.getElementById('panelVigenereDec').classList.add('active');
-            document.getElementById('encTitle').innerText = "تشفير فيجينير (Vigenère Cipher) - تعليمي";
-            document.getElementById('decTitle').innerText = "فك تشفير فيجينير (Vigenère Cipher)";
-        } else if (cipherType === 'rsa') {
+        } else if(type === 'rsa') {
             document.getElementById('panelRsaEnc').classList.add('active');
             document.getElementById('panelRsaDec').classList.add('active');
-            document.getElementById('encTitle').innerText = "تشفير RSA (المفتاح العام) - تعليمي";
-            document.getElementById('decTitle').innerText = "فك تشفير RSA (المفتاح الخاص)";
-        }
-        processCipher(true);
-    }
-
-    function renderCaesarWheelSVG(svgId) {
-        const svg = document.getElementById(svgId);
-        if (!svg) return;
-        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        const total = alphabet.length;
-        const center = 150;
-        const rOuter = 125;
-        const rInner = 88;
-
-        let html = `
-            <circle cx="${center}" cy="${center}" r="140" class="wheel-outer-circle" />
-        `;
-
-        for (let i = 0; i < total; i++) {
-            let angle = (i * 360 / total) - 90;
-            let rad = angle * Math.PI / 180;
-            let x = center + rOuter * Math.cos(rad);
-            let y = center + rOuter * Math.sin(rad);
-            html += `<text x="${x}" y="${y}" class="wheel-text-outer">${alphabet[i]}</text>`;
         }
 
-        html += `
-            <g id="${svgId}_innerGroup" class="wheel-inner-group">
-                <circle cx="${center}" cy="${center}" r="105" style="fill: #eef2ff; stroke: #5345ed; stroke-width: 2;" />
-                <circle cx="${center}" cy="${center}" r="70" style="fill: #ffffff; stroke: #cbd5e1; stroke-width: 1;" />
-        `;
-
-        for (let i = 0; i < total; i++) {
-            let angle = (i * 360 / total) - 90;
-            let rad = angle * Math.PI / 180;
-            let x = center + rInner * Math.cos(rad);
-            let y = center + rInner * Math.sin(rad);
-            html += `<text x="${x}" y="${y}" class="wheel-text-inner">${alphabet[i]}</text>`;
-        }
-
-        html += `</g>`;
-        svg.innerHTML = html;
+        const isEncrypting = document.getElementById('encryptMode').classList.contains('active');
+        processCipher(isEncrypting);
     }
 
-    function updateWheelRotation(shiftKey, isEncrypt, svgId) {
-        const innerGroup = document.getElementById(svgId + '_innerGroup');
-        if (!innerGroup) return;
-        
-        let k = parseInt(shiftKey) || 0;
-        let degreesPerLetter = 360 / 26;
-        let rotAngle = isEncrypt ? -(k * degreesPerLetter) : (k * degreesPerLetter);
-        
-        innerGroup.style.transform = `rotate(${rotAngle}deg)`;
-    }
-
+    /* --- وظائف تقييم كلمات المرور --- */
     function evaluatePassword() {
         const pwd = document.getElementById('passwordInput').value;
+        const timeResult = document.getElementById('crackTimeResult');
+        const bar = document.getElementById('strengthBar');
         const feedback = document.getElementById('passwordFeedback');
         const scoreBadge = document.getElementById('scoreBadge');
-        const bar = document.getElementById('strengthBar');
-        const timeResult = document.getElementById('crackTimeResult');
         const analysisSection = document.getElementById('analysisSection');
         const strengthsList = document.getElementById('strengthsList');
         const weaknessesList = document.getElementById('weaknessesList');
 
         if (!pwd) {
+            timeResult.innerText = "بانتظار المدخلات...";
+            bar.style.width = "0%";
             feedback.innerText = "أدخل كلمة سر للتحليل...";
             scoreBadge.innerText = "0/100";
-            bar.style.width = "0%";
-            timeResult.innerText = "بانتظار المدخلات...";
-            analysisSection.style.display = "none";
+            analysisSection.style.display = 'none';
             return;
         }
 
-        let charsetSize = 0;
-        let hasLower = /[a-z]/.test(pwd);
-        let hasUpper = /[A-Z]/.test(pwd);
-        let hasNum = /[0-9]/.test(pwd);
-        let hasSym = /[^a-zA-Z0-9]/.test(pwd);
+        analysisSection.style.display = 'grid';
+        strengthsList.innerHTML = '';
+        weaknessesList.innerHTML = '';
 
-        let strengths = [];
-        let weaknesses = [];
+        let score = 0;
+        let poolSize = 0;
 
-        if (hasLower) { charsetSize += 26; strengths.push("تحتوي أحرُف صغيرة (a-z)"); }
-        else { weaknesses.push("أضف أحرُفاً صغيرة لزيادة التعقيد"); }
+        if (/[a-z]/.test(pwd)) { score += 15; poolSize += 26; strengthsList.innerHTML += '<li>• تحوي أحرف صغيرة (a-z)</li>'; }
+        else { weaknessesList.innerHTML += '<li>• أضف أحرفاً صغيرة لتعقيد التخمين</li>'; }
 
-        if (hasUpper) { charsetSize += 26; strengths.push("تحتوي أحرُف كبيرة (A-Z)"); }
-        else { weaknesses.push("أضف أحرُفاً كبيرة"); }
+        if (/[A-Z]/.test(pwd)) { score += 20; poolSize += 26; strengthsList.innerHTML += '<li>• تحوي أحرف كبيرة (A-Z)</li>'; }
+        else { weaknessesList.innerHTML += '<li>• أضف أحرفاً كبيرة (Capital Letters)</li>'; }
 
-        if (hasNum) { charsetSize += 10; strengths.push("تحتوي أرقاماً (0-9)"); }
-        else { weaknesses.push("دمج الأرقام يرفع خيارات التخمين"); }
+        if (/[0-9]/.test(pwd)) { score += 15; poolSize += 10; strengthsList.innerHTML += '<li>• تحوي أرقاماً عدادية (0-9)</li>'; }
+        else { weaknessesList.innerHTML += '<li>• أدخل أرقاماً جيدة لتشتيت المخترق</li>'; }
 
-        if (hasSym) { charsetSize += 32; strengths.push("تحتوي رموزاً خاصة (!@#$)"); }
-        else { weaknesses.push("استخدم رموزاً مثل @,#,$ لإرباك هجمات القوة القاهرة"); }
+        if (/[^a-zA-Z0-9]/.test(pwd)) { score += 25; poolSize += 32; strengthsList.innerHTML += '<li>• تحوي رموزاً خاصة (@, #, $, ...)</li>'; }
+        else { weaknessesList.innerHTML += '<li>• أضف رموزاً خاصة لرفع القوة بشكل مضاعف</li>'; }
 
-        if (pwd.length >= 12) strengths.push(`طول مناسب جداً (${pwd.length} حرف)`);
-        else weaknesses.push(`كلمة السر قصيرة (${pwd.length} أحرُف). يفضل أن تكون 12+`);
+        if (pwd.length >= 8) { score += 25; strengthsList.innerHTML += `<li>• الطول مناسب (${pwd.length} حرفاً)</li>`; }
+        else { weaknessesList.innerHTML += `<li>• كلمة السر قصيرة جداً (${pwd.length} حروف فقط)</li>`; }
 
-        const combinations = Math.pow(charsetSize, pwd.length);
-        const guessesPerSecond = 1e10; 
-        const secondsToCrack = combinations / guessesPerSecond;
+        bar.style.width = Math.min(score, 100) + '%';
+        scoreBadge.innerText = Math.min(score, 100) + '/100';
 
-        timeResult.innerText = formatTime(secondsToCrack);
-
-        let score = Math.min(100, Math.floor((Math.log2(combinations || 1) / 80) * 100));
-        scoreBadge.innerText = `${score}/100`;
-        bar.style.width = `${score}%`;
-
-        if (score < 30) {
-            bar.style.backgroundColor = "var(--accent-red)";
-            feedback.innerText = "ضعيفة جداً - سهلة الاختراق فوراً!";
-        } else if (score < 65) {
-            bar.style.backgroundColor = "#f59e0b";
-            feedback.innerText = "متوسطة - مقبولة ولكن يمكن تحسينها.";
+        if (score < 40) {
+            bar.style.backgroundColor = 'var(--accent-red)';
+            feedback.innerText = 'ضعيفة جداً - سهلة الاختراق ❌';
+            feedback.style.color = 'var(--accent-red)';
+        } else if (score < 75) {
+            bar.style.backgroundColor = '#f59e0b';
+            feedback.innerText = 'متوسطة الأمان ⚠️';
+            feedback.style.color = '#f59e0b';
         } else {
-            bar.style.backgroundColor = "var(--accent-green)";
-            feedback.innerText = "قوية ممتازة - يصعب تخمينها عملياً!";
+            bar.style.backgroundColor = 'var(--accent-green)';
+            feedback.innerText = 'قوية وممتازة 🔒';
+            feedback.style.color = 'var(--accent-green)';
         }
 
-        strengthsList.innerHTML = strengths.map(s => `<li>✔ ${s}</li>`).join('');
-        weaknessesList.innerHTML = weaknesses.map(w => `<li>✖ ${w}</li>`).join('');
-        analysisSection.style.display = "grid";
+        // حساب وقت الكسر
+        if (poolSize === 0) return;
+        const combinations = Math.pow(poolSize, pwd.length);
+        const guessesPerSec = 1e10; // 10 مليار محاولة بالثانية
+        const seconds = combinations / guessesPerSec;
+
+        if (seconds < 1) timeResult.innerText = "أقل من ثانية واحدة (لحظياً!)";
+        else if (seconds < 60) timeResult.innerText = Math.round(seconds) + " ثوانٍ";
+        else if (seconds < 3600) timeResult.innerText = Math.round(seconds / 60) + " دقائق";
+        else if (seconds < 86400) timeResult.innerText = Math.round(seconds / 3600) + " ساعات";
+        else if (seconds < 31536000) timeResult.innerText = Math.round(seconds / 86400) + " أيام";
+        else if (seconds < 31536000000) timeResult.innerText = Math.round(seconds / 31536000) + " سنوات";
+        else timeResult.innerText = "ملايين القرون! 🔒";
     }
 
-    function formatTime(seconds) {
-        if (seconds < 1) return "أقل من ثانية واحدة (اختراق فوري!)";
-        if (seconds < 60) return `${Math.round(seconds)} ثانية`;
-        if (seconds < 3600) return `${Math.round(seconds / 60)} دقيقة`;
-        if (seconds < 86400) return `${Math.round(seconds / 3600)} ساعة`;
-        if (seconds < 31536000) return `${Math.round(seconds / 86400)} يوم`;
-        
-        const years = seconds / 31536000;
-        
-        if (years < 1000) return `${Math.round(years)} سنة`;
-        if (years < 1e6) return `${(years / 1000).toFixed(1)} ألف سنة`;
-        if (years < 1e9) return `${(years / 1e6).toFixed(1)} مليون سنة`;
-        if (years < 1e12) return `${(years / 1e9).toFixed(1)} مليار سنة`;
-        
-        return "1Trillion+ سنة";
-    }
+    /* --- رسم عجلة قيصر SVG التفاعلية --- */
+    function renderCaesarWheelSVG(svgId) {
+        const svg = document.getElementById(svgId);
+        if(!svg) return;
+        svg.innerHTML = '';
 
-    function caesarCipherEdu(text, shift, isEncrypt) {
-        shift = (shift % 26 + 26) % 26;
-        if (!isEncrypt) shift = (26 - shift) % 26;
-        
-        let result = "";
-        let steps = [];
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const center = 150;
+        const outerR = 135;
+        const innerR = 95;
 
-        for (let i = 0; i < text.length; i++) {
-            let char = text[i];
-            if (char.match(/[a-z]/i)) {
-                let code = text.charCodeAt(i);
-                let base = (code >= 65 && code <= 90) ? 65 : 97;
-                let origPos = code - base;
-                let newPos = (origPos + shift) % 26;
-                let newChar = String.fromCharCode(base + newPos);
+        // الحلقة الخارجية
+        let html = `<circle cx="${center}" cy="${center}" r="${outerR}" class="wheel-outer-circle" />`;
+        html += `<circle cx="${center}" cy="${center}" r="${innerR}" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" />`;
 
-                result += newChar;
-                steps.push({
-                    char: char,
-                    explanation: `الحرف '${char}' (ترتيبه ${origPos}) ➔ بالإزاحة (+${shift}) ➔ يصبح '${newChar}' (ترتيبه ${newPos})`
-                });
-            } else {
-                result += char;
-                steps.push({
-                    char: char,
-                    explanation: `الحرف أو الرمز '${char}' يبقي كما هو بدون تغيير.`
-                });
-            }
-        }
-        return { result, steps };
-    }
-
-    function vigenereCipherEdu(text, key, isEncrypt) {
-        if (!key) key = "KEY";
-        key = key.toUpperCase().replace(/[^A-Z]/g, '');
-        if (key.length === 0) key = "KEY";
-
-        let result = "";
-        let steps = [];
-        let keyIndex = 0;
-
-        for (let i = 0; i < text.length; i++) {
-            let char = text[i];
-            if (char.match(/[a-z]/i)) {
-                let isUpper = (char === char.toUpperCase());
-                let pCode = char.toUpperCase().charCodeAt(0) - 65;
-                let kCode = key[keyIndex % key.length].charCodeAt(0) - 65;
-                
-                let shift = isEncrypt ? kCode : (26 - kCode) % 26;
-                let cCode = (pCode + shift) % 26;
-                let newChar = String.fromCharCode(cCode + 65);
-                if (!isUpper) newChar = newChar.toLowerCase();
-
-                result += newChar;
-                steps.push({
-                    char: char,
-                    explanation: `الحرف '${char}' مع مفتاح الحرف '${key[keyIndex % key.length]}' (إزاحة +${kCode}) ➔ يصبح '${newChar}'`
-                });
-                keyIndex++;
-            } else {
-                result += char;
-                steps.push({
-                    char: char,
-                    explanation: `الرمز أو الفراغ '${char}' لا يتم تشفيره.`
-                });
-            }
-        }
-        return { result, steps };
-    }
-
-    function rsaCipherEdu(text, p, q, e, isEncrypt) {
-        let n = BigInt(p * q);
-        let phi = BigInt((p - 1) * (q - 1));
-        let eBig = BigInt(e);
-        let d = modInverse(eBig, phi);
-
-        let result = "";
-        let steps = [];
-
-        if (isEncrypt) {
-            steps.push({ char: 'RSA', explanation: `حساب المعاملات: N = P×Q = ${n} ، Phi(N) = ${phi} ، المفتاح العام (E=${e})` });
-            let encryptedArray = [];
-            for (let i = 0; i < text.length; i++) {
-                let m = BigInt(text.charCodeAt(i));
-                let c = modPow(m, eBig, n);
-                encryptedArray.push(c.toString());
-                steps.push({
-                    char: text[i],
-                    explanation: `الحرف '${text[i]}' (ASCII: ${m}) ➔ الحساب: (${m}^${e}) mod ${n} ➔ الناتج: ${c}`
-                });
-            }
-            result = encryptedArray.join(' ');
-        } else {
-            steps.push({ char: 'RSA', explanation: `حساب المفتاح الخاص D = ${d} باستخدام المعكوس الضربي لـ E mod Phi(N)` });
-            let cipherTokens = text.trim().split(/\s+/);
-            for (let i = 0; i < cipherTokens.length; i++) {
-                if (!cipherTokens[i]) continue;
-                let c = BigInt(cipherTokens[i]);
-                let m = modPow(c, d, n);
-                let origChar = String.fromCharCode(Number(m));
-                result += origChar;
-                steps.push({
-                    char: cipherTokens[i],
-                    explanation: `العدد المشفر ${c} ➔ الحساب: (${c}^${d}) mod ${n} ➔ القيمة الأصلية: ${m} ('${origChar}')`
-                });
-            }
+        // الحروف الخارجية
+        for(let i = 0; i < 26; i++) {
+            const angle = (i * 360 / 26) - 90;
+            const rad = angle * Math.PI / 180;
+            const x = center + (outerR - 18) * Math.cos(rad);
+            const y = center + (outerR - 18) * Math.sin(rad);
+            html += `<text x="${x}" y="${y}" class="wheel-text-outer">${alphabet[i]}</text>`;
         }
 
-        return { result, steps };
-    }
+        // القرص الداخلي الدوار
+        html += `<g id="${svgId}_innerGroup" class="wheel-inner-group">`;
+        html += `<circle cx="${center}" cy="${center}" r="${innerR - 5}" fill="#ffffff" stroke="#5345ed" stroke-width="2" />`;
 
-    function modPow(base, exp, modulus) {
-        if (modulus === 1n) return 0n;
-        let result = 1n;
-        base = base % modulus;
-        while (exp > 0n) {
-            if (exp % 2n === 1n) result = (result * base) % modulus;
-            exp = exp / 2n;
-            base = (base * base) % modulus;
+        for(let i = 0; i < 26; i++) {
+            const angle = (i * 360 / 26) - 90;
+            const rad = angle * Math.PI / 180;
+            const x = center + (innerR - 22) * Math.cos(rad);
+            const y = center + (innerR - 22) * Math.sin(rad);
+            html += `<text x="${x}" y="${y}" class="wheel-text-inner">${alphabet[i]}</text>`;
         }
-        return result;
+        html += `</g>`;
+
+        svg.innerHTML = html;
     }
 
-    function modInverse(e, phi) {
-        let m0 = phi, t, q;
-        let x0 = 0n, x1 = 1n;
-        if (phi === 1n) return 0n;
-        while (e > 1n) {
-            q = e / phi;
-            t = phi;
-            phi = e % phi; e = t;
-            t = x0;
-            x0 = x1 - q * x0;
-            x1 = t;
-        }
-        if (x1 < 0n) x1 += m0;
-        return x1;
+    function rotateCaesarWheel(shift, isEnc) {
+        const encGroup = document.getElementById('caesarWheelEncSVG_innerGroup');
+        const decGroup = document.getElementById('caesarWheelDecSVG_innerGroup');
+
+        const degrees = (shift % 26) * (360 / 26);
+        const rotationAngle = isEnc ? -degrees : degrees;
+
+        if(encGroup) encGroup.style.transform = `rotate(${rotationAngle}deg)`;
+        if(decGroup) decGroup.style.transform = `rotate(${rotationAngle}deg)`;
     }
 
+    /* --- منطق التشفير وفك التشفير --- */
     function processCipher(isEncrypt) {
         const suffix = isEncrypt ? 'Enc' : 'Dec';
-        const type = selectedCipher;
-        const input = document.getElementById('cipherInput' + suffix).value;
-        let output = "";
-
+        const inputStr = document.getElementById('cipherInput' + suffix).value;
+        const outputElem = document.getElementById('cipherOutput' + suffix);
+        const stepsElem = document.getElementById('stepsList' + suffix);
         const eduSection = document.getElementById('eduSection' + suffix);
-        const stepsList = document.getElementById('stepsList' + suffix);
 
-        if (type === 'caesar') {
-            let k = parseInt(document.getElementById('caesarKey' + suffix).value) || 0;
-            
-            updateWheelRotation(k, isEncrypt, 'caesarWheel' + suffix + 'SVG');
+        if(!inputStr) {
+            outputElem.innerText = '--';
+            eduSection.style.display = 'none';
+            return;
+        }
 
-            const res = caesarCipherEdu(input, k, isEncrypt);
-            output = res.result;
+        let resultText = '';
+        let stepsHTML = '';
 
-            eduSection.style.display = "block";
-            stepsList.innerHTML = res.steps.map(st => `
-                <div class="step-item">
-                    <span class="step-badge">${st.char}</span>
-                    <span>${st.explanation}</span>
-                </div>
-            `).join('');
+        if(selectedCipher === 'caesar') {
+            const key = parseInt(document.getElementById('caesarKey' + suffix).value) || 0;
+            rotateCaesarWheel(key, isEncrypt);
 
-        } else if (type === 'vigenere') {
-            const key = document.getElementById('vigenereKey' + suffix).value;
-            const res = vigenereCipherEdu(input, key, isEncrypt);
-            output = res.result;
+            for(let i = 0; i < inputStr.length; i++) {
+                let char = inputStr[i];
+                if(char.match(/[a-z]/i)) {
+                    let code = inputStr.charCodeAt(i);
+                    let base = (code >= 65 && code <= 90) ? 65 : 97;
+                    let shift = isEncrypt ? key : -key;
+                    let newCode = (code - base + shift) % 26;
+                    if(newCode < 0) newCode += 26;
+                    let newChar = String.fromCharCode(newCode + base);
+                    resultText += newChar;
+                    stepsHTML += `<div class="step-item"><span class="step-badge">${i+1}</span> الحرف '${char}' ➔ الإزاحة (${isEncrypt?'+':'-'}${key}) ➔ الناتج '${newChar}'</div>`;
+                } else {
+                    resultText += char;
+                }
+            }
+        } else if(selectedCipher === 'vigenere') {
+            const keyStr = document.getElementById('vigenereKey' + suffix).value || 'KEY';
+            let keyIndex = 0;
 
-            eduSection.style.display = "block";
-            stepsList.innerHTML = res.steps.map(st => `
-                <div class="step-item">
-                    <span class="step-badge">${st.char}</span>
-                    <span>${st.explanation}</span>
-                </div>
-            `).join('');
+            for(let i = 0; i < inputStr.length; i++) {
+                let char = inputStr[i];
+                if(char.match(/[a-z]/i)) {
+                    let isUpper = (char === char.toUpperCase());
+                    let pCode = char.toUpperCase().charCodeAt(0) - 65;
+                    let kCode = keyStr[keyIndex % keyStr.length].toUpperCase().charCodeAt(0) - 65;
+                    let resCode = isEncrypt ? (pCode + kCode) % 26 : (pCode - kCode + 26) % 26;
+                    let newChar = String.fromCharCode(resCode + 65);
+                    if(!isUpper) newChar = newChar.toLowerCase();
 
-        } else if (type === 'rsa') {
+                    resultText += newChar;
+                    stepsHTML += `<div class="step-item"><span class="step-badge">${i+1}</span> الحرف '${char}' مع المفتاح '${keyStr[keyIndex % keyStr.length]}' ➔ الناتج '${newChar}'</div>`;
+                    keyIndex++;
+                } else {
+                    resultText += char;
+                }
+            }
+        } else if(selectedCipher === 'rsa') {
             const p = parseInt(document.getElementById('rsaP' + suffix).value) || 61;
             const q = parseInt(document.getElementById('rsaQ' + suffix).value) || 53;
             const e = parseInt(document.getElementById('rsaE' + suffix).value) || 17;
+            
+            const n = p * q;
+            const phi = (p - 1) * (q - 1);
+            let d = modInverse(e, phi);
 
-            const res = rsaCipherEdu(input, p, q, e, isEncrypt);
-            output = res.result;
+            stepsHTML += `<div class="step-item"><span class="step-badge">N</span> حساب المتغير N = P × Q = ${n}</div>`;
+            stepsHTML += `<div class="step-item"><span class="step-badge">Φ</span> حساب معامل أويلر Φ(N) = ${phi}</div>`;
 
-            eduSection.style.display = "block";
-            stepsList.innerHTML = res.steps.map(st => `
-                <div class="step-item">
-                    <span class="step-badge">${st.char || 'RSA'}</span>
-                    <span>${st.explanation}</span>
-                </div>
-            `).join('');
+            if(isEncrypt) {
+                let cipherNums = [];
+                for(let i = 0; i < inputStr.length; i++) {
+                    let m = inputStr.charCodeAt(i);
+                    let c = bigIntPowMod(BigInt(m), BigInt(e), BigInt(n));
+                    cipherNums.push(c.toString());
+                }
+                resultText = cipherNums.join(' ');
+            } else {
+                let arr = inputStr.trim().split(' ');
+                for(let i = 0; i < arr.length; i++) {
+                    let c = parseInt(arr[i]);
+                    if(!isNaN(c)) {
+                        let m = bigIntPowMod(BigInt(c), BigInt(d), BigInt(n));
+                        resultText += String.fromCharCode(Number(m));
+                    }
+                }
+            }
         }
 
-        document.getElementById('cipherOutput' + suffix).innerText = output || "--";
+        outputElem.innerText = resultText;
+        if(stepsHTML) {
+            eduSection.style.display = 'block';
+            stepsElem.innerHTML = stepsHTML;
+        } else {
+            eduSection.style.display = 'none';
+        }
     }
 
-    let imgEncObj = null;
-    let imgDecObj = null;
+    function modInverse(a, m) {
+        a = (a % m + m) % m;
+        for (let x = 1; x < m; x++) {
+            if ((a * x) % m == 1) return x;
+        }
+        return 1;
+    }
 
+    function bigIntPowMod(base, exp, mod) {
+        let res = BigInt(1);
+        base = base % mod;
+        while (exp > 0) {
+            if (exp % BigInt(2) === BigInt(1)) res = (res * base) % mod;
+            base = (base * base) % mod;
+            exp = exp / BigInt(2);
+        }
+        return res;
+    }
+
+    /* --- منطق إخفاء واستخراج الرسائل بالصور (Steganography) --- */
     function handleImage(e, canvasId) {
         const reader = new FileReader();
         reader.onload = function(event) {
@@ -1271,33 +1196,32 @@
                 canvas.width = img.width;
                 canvas.height = img.height;
                 ctx.drawImage(img, 0, 0);
-                if (canvasId === 'stegoCanvasEnc') imgEncObj = img;
-                else imgDecObj = img;
             }
             img.src = event.target.result;
         }
-        if (e.target.files[0]) reader.readAsDataURL(e.target.files[0]);
+        if(e.target.files[0]) reader.readAsDataURL(e.target.files[0]);
     }
 
     function hideMessage() {
         const canvas = document.getElementById('stegoCanvasEnc');
         const ctx = canvas.getContext('2d');
-        const message = document.getElementById('stegoMessageEnc').value;
+        const msg = document.getElementById('stegoMessageEnc').value;
 
-        if (!imgEncObj || !message) {
-            alert('يرجى اختيار صورة وكتابة رسالة أولاً!');
+        if(!canvas.width || !msg) {
+            alert('يرجى اختيار صورة واكتب رسالة للإخفاء!');
             return;
         }
 
         const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imgData.data;
 
-        let fullMessage = message + "||END||";
-        let binaryMsg = "";
-        for (let i = 0; i < fullMessage.length; i++) {
-            let bin = fullMessage.charCodeAt(i).toString(2);
-            binaryMsg += "0".repeat(8 - bin.length) + bin;
+        // تحويل النص إلى باينري
+        let binaryMsg = '';
+        for (let i = 0; i < msg.length; i++) {
+            let bin = msg.charCodeAt(i).toString(2);
+            binaryMsg += '0'.repeat(8 - bin.length) + bin;
         }
+        binaryMsg += '00000000'; // نهاية النص Null Terminator
 
         if (binaryMsg.length > data.length / 4) {
             alert('حجم الرسالة كبير جداً بالنسبة لهذه الصورة!');
@@ -1310,8 +1234,9 @@
 
         ctx.putImageData(imgData, 0, 0);
 
+        // تنزيل الصورة الناتجة
         const link = document.createElement('a');
-        link.download = 'stego_image.png';
+        link.download = 'stego-image.png';
         link.href = canvas.toDataURL('image/png');
         link.click();
     }
@@ -1319,34 +1244,30 @@
     function revealMessage() {
         const canvas = document.getElementById('stegoCanvasDec');
         const ctx = canvas.getContext('2d');
+        const output = document.getElementById('stegoOutputDec');
 
-        if (!imgDecObj) {
-            alert('يرجى اختيار صورة أولاً!');
+        if(!canvas.width) {
+            alert('يرجى رفع الصورة المحملة بالرسالة أولاً!');
             return;
         }
 
         const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         const data = imgData.data;
 
-        let binaryMsg = "";
-        let extractedText = "";
-
+        let binaryMsg = '';
         for (let i = 0; i < data.length; i += 4) {
             binaryMsg += (data[i] & 1).toString();
-
-            if (binaryMsg.length === 8) {
-                let charCode = parseInt(binaryMsg, 2);
-                extractedText += String.fromCharCode(charCode);
-                binaryMsg = "";
-
-                if (extractedText.endsWith("||END||")) {
-                    extractedText = extractedText.replace("||END||", "");
-                    break;
-                }
-            }
         }
 
-        document.getElementById('stegoOutputDec').innerText = extractedText || "لم يتم العثور على رسالة مخفية.";
+        let hiddenText = '';
+        for (let i = 0; i < binaryMsg.length; i += 8) {
+            let byte = binaryMsg.substr(i, 8);
+            if (byte === '00000000') break;
+            hiddenText += String.fromCharCode(parseInt(byte, 2));
+        }
+
+        output.innerText = hiddenText ? hiddenText : "لم يتم العثور على رسالة مخفية!";
+        output.style.color = hiddenText ? "var(--accent-green)" : "var(--accent-red)";
     }
 </script>
 
